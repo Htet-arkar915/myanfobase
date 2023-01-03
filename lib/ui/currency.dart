@@ -41,7 +41,7 @@ class _ShowCurrencyState extends State<ShowCurrency> {
           ),
           const SizedBox(height: 20,),
           Container(
-            width: 1024,
+            width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(20.0),
             margin: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(

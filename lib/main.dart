@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:myanfobase/model/ProfilePicture.dart';
 import 'package:myanfobase/ui/currency.dart';
+import 'package:myanfobase/ui/latest_posts.dart';
 import 'package:myanfobase/ui/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:myanfobase/ui/categories.dart';
@@ -107,7 +108,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    //print(usersList.length.toString());
     _getUserData();
     return Scaffold(
       appBar: AppBar(
@@ -145,6 +145,7 @@ class _MainPageState extends State<MainPage> {
                             builder: (context,AsyncSnapshot<List<UserModel>> snapshot) {
                               if (snapshot.hasData) {
                                 String loginMail= sharedPreferences.getString('email').toString();
+                                print(sharedPreferences.getString('token'));
                                 for(UserModel user in usersList){
                                   if(user.email== loginMail){
                                     username= user.username.toString();
@@ -231,7 +232,7 @@ class _MainPageState extends State<MainPage> {
                 )
             ),
             ListTile(
-              leading: const Icon(Icons.home),
+              leading: const Icon(Icons.home_outlined),
               iconColor: Colors.blue.shade700,
               title: Text("Home",
                 style: TextStyle(
@@ -242,9 +243,20 @@ class _MainPageState extends State<MainPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.save_as_sharp),
               iconColor: Colors.blue.shade700,
-              title: Text("Setting",
+              title: Text("Saved",
+                style: TextStyle(
+                  color: Colors.blue.shade700,
+                ),),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.favorite_border_sharp),
+              iconColor: Colors.blue.shade700,
+              title: Text("Favourites",
                 style: TextStyle(
                   color: Colors.blue.shade700,
                 ),),
@@ -258,7 +270,7 @@ class _MainPageState extends State<MainPage> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(18.0,0,0,0),
-              child: Text("Categories",
+              child: Text("Setting",
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -266,9 +278,9 @@ class _MainPageState extends State<MainPage> {
                 ),),
             ),
             ListTile(
-              leading: const Icon(Icons.currency_exchange),
+              leading: const Icon(Icons.color_lens_outlined),
               iconColor: Colors.blue.shade700,
-              title: Text("Currency Exchange",
+              title: Text("Theme",
                 style: TextStyle(
                   color: Colors.blue.shade700,
                 ),),
@@ -277,9 +289,9 @@ class _MainPageState extends State<MainPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.food_bank),
+              leading: const Icon(Icons.lock_reset),
               iconColor: Colors.blue.shade700,
-              title: Text("Food",
+              title: Text("Change Password",
                 style: TextStyle(
                   color: Colors.blue.shade700,
                 ),),
@@ -288,9 +300,9 @@ class _MainPageState extends State<MainPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.emoji_transportation),
+              leading: const Icon(Icons.logout),
               iconColor: Colors.blue.shade700,
-              title: Text("Transportation",
+              title: Text("Logout",
                 style: TextStyle(
                   color: Colors.blue.shade700,
                 ),),
@@ -298,61 +310,7 @@ class _MainPageState extends State<MainPage> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.shop),
-              iconColor: Colors.blue.shade700,
-              title: Text("Markets",
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                ),),
-              onTap: (){
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.favorite),
-              iconColor: Colors.blue.shade700,
-              title: Text("Popular Posts",
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                ),),
-              onTap: (){
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.music_video),
-              iconColor: Colors.blue.shade700,
-              title: Text("music videos",
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                ),),
-              onTap: (){
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.local_movies),
-              iconColor: Colors.blue.shade700,
-              title: Text("Movies",
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                ),),
-              onTap: (){
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context)=>const PlayVideo()), (Route<dynamic> route) => false);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.movie_filter_sharp),
-              iconColor: Colors.blue.shade700,
-              title: Text("Myanmar Movies",
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                ),),
-              onTap: (){
-                Navigator.pop(context);
-              },
-            ),
+
           ],
         ),
       ),
@@ -362,6 +320,7 @@ class _MainPageState extends State<MainPage> {
           ShowCurrency(),
           SizedBox(height: 20,),
           PopularPost(),
+          LatestPost()
 
         ],
       ),
