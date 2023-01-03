@@ -47,7 +47,7 @@ class _LatestPostState extends State<LatestPost> {
                     itemCount: latestPostList.length,
                     itemBuilder: (BuildContext context,int index){
                       return GestureDetector(
-                          child: Text("data"));
+                          child: Text("Htet Arkar Linn"));
                     });
             })
 
