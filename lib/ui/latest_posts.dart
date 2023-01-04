@@ -15,13 +15,26 @@ class LatestPost extends StatefulWidget {
 class _LatestPostState extends State<LatestPost> {
   List<PostModel> latestPostList = [];
 
-  _getLatestPost() async {
+  Future<List<PostModel>> _getLatestPost() async {
+    latestPostList.clear();
     http.Response response = await http.get(Uri.parse(getLatestPostApi));
     var data = jsonDecode(response.body.toString());
     for(Map<String, dynamic>lp in data){
       latestPostList.add(PostModel.fromJson(lp));
     }
+    return latestPostList;
   }
+  _showLatestPost(BuildContext context, PostModel latestPostList){
+    return GestureDetector(
+      onTap: (){},
+      child: Column(
+        children: [
+          Text(latestPostList.viewcount.toString())
+        ],
+      ),
+    );
+
+}
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,20 +50,23 @@ class _LatestPostState extends State<LatestPost> {
           ),
         ),
         const SizedBox(height: 10),
-        FutureBuilder(
-          future: _getLatestPost(),
-            builder: (context, snapshot){
-                return ListView.builder(
-                    padding: const EdgeInsets.only(left: 10),
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: latestPostList.length,
-                    itemBuilder: (BuildContext context,int index){
-                      return GestureDetector(
-                          child: Text("Htet Arkar Linn"));
-                    });
-            })
-
+        Container(
+          height: 100,
+          child: FutureBuilder(
+            future: _getLatestPost(),
+              builder: (context, snapshot){
+              if(snapshot.hasData)
+                  return ListView.builder(
+                      padding: const EdgeInsets.only(left: 10),
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: latestPostList.length,
+                      itemBuilder: (BuildContext context,int index){
+                        return _showLatestPost(context,latestPostList[index]);
+              });
+              return Text("haha");
+    }),
+        )
       ],
     );
   }
