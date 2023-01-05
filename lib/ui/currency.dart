@@ -50,8 +50,8 @@ class _ShowCurrencyState extends State<ShowCurrency> {
               boxShadow:const [
                 BoxShadow(
                     color: Colors.grey,
-                    blurRadius: 2,
-                    offset: Offset(2,4)
+                    blurRadius: 1,
+                    offset: Offset(1,2)
 
                 )
               ],
