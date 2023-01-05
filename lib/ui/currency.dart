@@ -32,21 +32,28 @@ class _ShowCurrencyState extends State<ShowCurrency> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: Text("Currency Exchange" ,style: TextStyle(
                 fontSize: 24.0,
-                color: Colors.blue,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.6),),
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+                ),),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(height: 10,),
           Container(
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(20.0),
-            margin: const EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              color: Colors.blueAccent,
+              gradient: const LinearGradient(colors: [
+                Colors.blueGrey,
+                Colors.black12,
+                Colors.blueGrey
+              ]),
+
               borderRadius: BorderRadius.circular(5),
+              border: const Border.symmetric(horizontal: BorderSide(color: Colors.black12,width: 1),
+                  vertical: BorderSide(color: Colors.black12,width: 1)),
               boxShadow:const [
                 BoxShadow(
                     color: Colors.grey,
@@ -68,7 +75,7 @@ class _ShowCurrencyState extends State<ShowCurrency> {
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.w400
                     ),
                     ),
 
@@ -79,21 +86,23 @@ class _ShowCurrencyState extends State<ShowCurrency> {
                             const Text("USD",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400
                             ),),
-                            const SizedBox(width: 185,),
+                            const Spacer(),
                             Text(snapshot.data!.rates.usd,
                                 style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
                                 ),
                             )
                           ],
 
                         ),
                       ),
+                      const Divider(height: 1,
+                      color: Colors.white38,),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -101,21 +110,23 @@ class _ShowCurrencyState extends State<ShowCurrency> {
                             const Text("SGD",
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
                               ),),
-                            const SizedBox(width: 185,),
+                            const Spacer(),
                             Text(snapshot.data!.rates.sgd,
                               style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
                               ),
                             )
                           ],
 
                         ),
                       ),
+                      const Divider(height: 1,
+                        color: Colors.white38,),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -123,21 +134,23 @@ class _ShowCurrencyState extends State<ShowCurrency> {
                             const Text("THB",
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
                               ),),
-                            const SizedBox(width: 185,),
+                            const Spacer(),
                             Text(snapshot.data!.rates.thb,
                               style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
                               ),
                             )
                           ],
 
                         ),
                       ),
+                      const Divider(height: 1,
+                        color: Colors.white38,),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -145,21 +158,24 @@ class _ShowCurrencyState extends State<ShowCurrency> {
                             const Text("INR",
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
                               ),),
-                            const SizedBox(width: 190,),
+                            const Spacer(),
                             Text(snapshot.data!.rates.inr,
                               style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
                               ),
                             )
                           ],
 
                         ),
                       ),
+                      const Divider(height: 1,
+                        color: Colors.white38,),
+                       const SizedBox(height: 8,),
                        GestureDetector(
                          child: const Text("see more>>",
                          style: TextStyle(
@@ -173,7 +189,7 @@ class _ShowCurrencyState extends State<ShowCurrency> {
                     ],
                   );
                 }else{
-                  return Text(snapshot.error.toString());
+                  return const Text("Waiting Connection....");
                 }
                 return const CircularProgressIndicator();
               },

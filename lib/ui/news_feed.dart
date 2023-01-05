@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myanfobase/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:myanfobase/ui/PostImagesShow.dart';
+import 'package:myanfobase/ui/view_post_detail.dart';
 import 'package:myanfobase/util/util.dart';
 
 import 'package:myanfobase/model/Post_model.dart';
@@ -67,7 +68,11 @@ class _NewsFeedState extends State<NewsFeed> {
     halfScreen = MediaQuery.of(context).size.width/2;
     _getPostImageList(post.files);
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        _getPostImageList(post.files);
+        _getFavouriteCount(post.id);
+        Navigator.push(context,MaterialPageRoute(builder: (context)=> ViewPostDetail(post :post,favCount :favCount,postImage : postImageList)));
+      },
       child: Container(
 
         padding: const EdgeInsets.all(8),

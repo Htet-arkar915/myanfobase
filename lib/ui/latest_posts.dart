@@ -44,7 +44,9 @@ class _LatestPostState extends State<LatestPost> {
   _showLatestPost(BuildContext context, PostModel latestPost){
     _getPostImageList(latestPost.files);
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+
+      },
       child: Container(
         width: 260,
         margin: const EdgeInsets.all(8.0),
@@ -160,7 +162,7 @@ class _LatestPostState extends State<LatestPost> {
                         return _showLatestPost(context,latestPostList[index]);
                       });
                 }
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }),
         )
       ],
