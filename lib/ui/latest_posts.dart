@@ -1,11 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:myanfobase/model/Post_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:myanfobase/util/util.dart';
-
 import 'package:myanfobase/model/Files.dart';
+import 'package:myanfobase/ui/news_feed.dart';
+import 'package:myanfobase/ui/view_post_detail.dart';
+import 'package:myanfobase/util/util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LatestPost extends StatefulWidget {
   const LatestPost({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class LatestPost extends StatefulWidget {
 class _LatestPostState extends State<LatestPost> {
   String latestPostImage ="https://myanfobase.sgp1.digitaloceanspaces.com/uploads/2022-12-28T08-07-31.687Z-arts.jpg";
   List<PostModel> latestPostList = [];
+  String favCount ="";
+  List<Files> postImageList =[];
 
   Future<List<PostModel>> _getLatestPost() async {
     latestPostList.clear();
@@ -29,7 +32,7 @@ class _LatestPostState extends State<LatestPost> {
     return latestPostList;
   }
   _getPostImageList(dynamic files){
-    List<Files> postImageList =[];
+    postImageList.clear();
     if(files.toString().length> 5){
       var data = jsonDecode(jsonEncode(files).toString());
 
@@ -39,13 +42,30 @@ class _LatestPostState extends State<LatestPost> {
       latestPostImage=postImageList[0].filePath.toString();
     }
   }
+  _getFavouriteCount(String? id) async{
+    favCount="";
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString('token');
+    http.Response response = await http.post(Uri.parse(getPostFavApi),
+        headers: {'Authorization': 'Bearer $token'},
+        body: {
+          '_id' : id,
+        }
+    );
+    var data = jsonDecode(response.body.toString());
+    //print(' fav ${data['FavNumber']}');
+    favCount = ' ${data['FavNumber']} ';
+
+  }
 
 
   _showLatestPost(BuildContext context, PostModel latestPost){
     _getPostImageList(latestPost.files);
     return GestureDetector(
       onTap: (){
-
+        _getPostImageList(latestPost.files);
+        _getFavouriteCount(latestPost.id);
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>ViewPostDetail(post: latestPost, favCount: favCount, postImage: postImageList)));
       },
       child: Container(
         width: 260,

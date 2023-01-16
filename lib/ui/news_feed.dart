@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:myanfobase/main.dart';
@@ -22,6 +23,7 @@ class NewsFeed extends StatefulWidget {
 }
 
 class _NewsFeedState extends State<NewsFeed> {
+  bool check=false;
   String favCount="";
   double halfScreen = 0;
   List<Files> postImageList =[];
@@ -64,9 +66,32 @@ class _NewsFeedState extends State<NewsFeed> {
     favCount = ' ${data['FavNumber']} ';
 
   }
+  _addToFavourite(PostModel post, String filePath) async{
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    String user= sharedPreferences.getString('userId').toString();
+    String token = sharedPreferences.getString('token').toString();
+    http.Response response = await http.post(Uri.parse(addFavouriteApi),
+    headers: {
+      'authorization' : 'Bearer $token'
+    },
+    body:{
+      "_id" : post.id,
+      "user": user,
+      "title" : post.title,
+      "cateId" : post.cateId,
+      "cateName" : post.cateName,
+      "files" : filePath
+    } );
+    
+  }
   _showPost(BuildContext context, PostModel post){
+    getFavouriteCheck(context, post.id.toString(), post.user.toString());
+    //bool favouriteCheck = false;
     halfScreen = MediaQuery.of(context).size.width/2;
     _getPostImageList(post.files);
+    //favouriteCheck=false;
+
+    print(check);
     return GestureDetector(
       onTap: (){
         _getPostImageList(post.files);
@@ -222,15 +247,23 @@ class _NewsFeedState extends State<NewsFeed> {
                 SizedBox(
                   width: halfScreen-10,
                     child: OutlinedButton(
-                      onLongPress: (){
+                      onPressed: () {
+                        if(check){
+                        }else{
+                          _getPostImageList(post.files);
+                          _addToFavourite(post,postImageList[0].filePath.toString());
+                        }
                       },
-                      onPressed: () {  },
                       child: Padding(
+
                         padding: const EdgeInsets.only(left: 25),
                         child: Row(
-                          children:  const [
-                            Icon(Icons.favorite_border_sharp,color: Colors.grey,),
-                            Text(
+                          children:   [
+                            if(check)
+                            const Icon(Icons.favorite,color: Colors.blueAccent,),
+                            if(!check)
+                              const Icon(Icons.favorite_border_sharp,color: Colors.grey,),
+                            const Text(
                               'Favourite',)
                           ],
                         ),
@@ -280,6 +313,9 @@ class _NewsFeedState extends State<NewsFeed> {
             leading: IconButton(onPressed: (){
               Navigator.pop(context);
             }, icon: (const Icon(Icons.arrow_back_sharp))),
+            actions: [
+              IconButton(onPressed: (){}, icon: const Icon(Icons.search))
+            ],
           ),
           body: Container(
             margin: const EdgeInsets.only(top: 2),
@@ -299,4 +335,34 @@ class _NewsFeedState extends State<NewsFeed> {
           ),
         ));
   }
+
+   getFavouriteCheck(BuildContext context,String postId, String userId) async {
+    //check=true;
+    bool ck=false;
+    try {
+      SharedPreferences sharedPreferences = await SharedPreferences
+          .getInstance();
+      var token = sharedPreferences.getString('token');
+      var user = sharedPreferences.getString('userId');
+      http.Response response = await http.post(Uri.parse(getFavouriteCheckApi,),
+          headers: {
+            'Authorization': 'Bearer $token'
+          },
+          body: {
+            '_id': postId,
+            'user': user
+          }
+      );
+      if(response.statusCode==200) {
+        var data = jsonDecode(response.body.toString());
+        ck= data['favorited'];
+        //print(ck);
+      }
+
+    }catch (e){
+       print(e.toString());
+    }
+    check= ck;
+  }
+
 }
