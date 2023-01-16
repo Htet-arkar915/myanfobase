@@ -66,11 +66,14 @@ class _ViewPostDetailState extends State<ViewPostDetail> {
         return true;
       },
       child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 1,
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Container(
-            margin: const EdgeInsets.fromLTRB(12, 40, 12, 8),
+            margin: const EdgeInsets.fromLTRB(12, 10, 12, 8),
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,22 +129,27 @@ class _ViewPostDetailState extends State<ViewPostDetail> {
                 Text(
                   widget.post.description.toString(),
                   textAlign: TextAlign.justify,
-                  style: const TextStyle(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+
+                  style: const TextStyle(
+                      fontSize: 14
+                  ),),
+                const SizedBox(height: 4,),
                 ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     itemCount: widget.postImage.length,
                     itemBuilder: (BuildContext context, int index) {
                       String img = widget.postImage[index].filePath.toString();
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 2),
+                          child: Image(image: NetworkImage(img),width: MediaQuery.of(context).size.width,fit: BoxFit.cover,));
+
                       return Image(
                         image: NetworkImage(img),
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.cover,
                       );
+
                     }),
                 const SizedBox(
                   height: 8,
