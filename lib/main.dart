@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:myanfobase/model/ProfilePicture.dart';
 import 'package:myanfobase/ui/currency.dart';
 import 'package:myanfobase/ui/latest_posts.dart';
-import 'package:myanfobase/ui/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:myanfobase/ui/categories.dart';
 import 'package:myanfobase/ui/login.dart';
@@ -261,20 +260,25 @@ class _MainPageState extends State<MainPage> {
                   color: Colors.blue.shade700,
                 ),),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.pop(context,MaterialPageRoute(builder : (context) => Favorite()));
               },
             ),
-
-            const Divider(
-              color: Colors.grey,
+            ListTile(
+              leading: const Icon(Icons.food_bank),
+              iconColor: Colors.blue.shade700,
+              title: Text("Food",
+                style: TextStyle(
+                  color: Colors.blue.shade700,
+                ),),
+              onTap: (){
+                Navigator.pop(context);
+              },
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(18.0,0,0,0),
               child: Text("Setting",
                 style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue.shade700
+                  color: Colors.blue.shade700,
                 ),),
             ),
             ListTile(
@@ -287,6 +291,19 @@ class _MainPageState extends State<MainPage> {
               onTap: (){
                 Navigator.pop(context);
               },
+            ),
+
+            const Divider(
+              color: Colors.grey,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18.0,0,0,0),
+              child: Text("Categories",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.blue.shade700
+                ),),
             ),
             ListTile(
               leading: const Icon(Icons.lock_reset),
