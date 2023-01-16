@@ -6,6 +6,7 @@ import 'package:myanfobase/model/Category_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:myanfobase/ui/news_feed.dart';
 import 'package:myanfobase/util/util.dart';
+
 class Categories extends StatefulWidget {
 
   const Categories({Key? key}) : super(key: key);
@@ -26,7 +27,6 @@ class _CategoriesState extends State<Categories> {
       child: Column(
         children: [
           Container(
-
             margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
             padding: const EdgeInsets.all(10.0),
             decoration:  BoxDecoration(
@@ -59,9 +59,7 @@ class _CategoriesState extends State<Categories> {
         child:FutureBuilder(
           future : getAllCategory(),
           builder : (context , snapshot) {
-
             return ListView.builder(
-
                 padding: const EdgeInsets.only(left: 10),
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
